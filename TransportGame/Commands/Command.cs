@@ -1,0 +1,7 @@
+﻿class Command
+{
+	public Command()
+	{
+
+	}
+}
