@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/TransportGame/obj/Release/net6.0
+/TransportGame/obj
+/TransportGame/bin/Debug/net6.0
+*.v2
+/.vs/transport_game/FileContentIndex
+/.vs/transport_game/v17
+/.vs/slnx.sqlite
