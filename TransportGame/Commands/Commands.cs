@@ -33,6 +33,7 @@ namespace AsciiGames
 			};
 		}
 		
+
 		public Command? GetByKeyInMenu(ConsoleKey key, EMenu menu)
 		{
 			return CommandList.FirstOrDefault(c => c.Key == key && c.Menu == menu);

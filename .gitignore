@@ -4,6 +4,7 @@
 
 /TransportGame/obj/Release/net6.0
 /TransportGame/obj
+<<<<<<< HEAD
 /TransportGame/bin/Debug/net6.0
 *.v2
 /.vs/transport_game/FileContentIndex
@@ -11,3 +12,8 @@
 /.vs/slnx.sqlite
 /TransportGame/.vs/TransportGame
 /.vs/VSWorkspaceState.json
+=======
+/.vs
+/TransportGame/bin/Debug/net6.0
+/TransportGame/.vs/TransportGame
+>>>>>>> origin/main

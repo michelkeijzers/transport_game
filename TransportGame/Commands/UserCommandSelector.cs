@@ -1,4 +1,4 @@
-﻿namespace AsciiGames
+namespace AsciiGames
 {
 	public class UserCommandSelector
 	{
