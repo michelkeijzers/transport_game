@@ -1,17 +1,22 @@
-public class Truck
+namespace AsciiGames
 {
-	public Truck()
+	public class Truck
 	{
-		Id = LatestId.ToString();
-		LatestId++;
+		public Truck()
+		{
+			Id = LatestId.ToString();
+			LatestId++;
+		}
+
+		public void Print()
+		{
+			Console.WriteLine($"Truck {Id}");
+		}
+
+		public string Id { get; set; }
+
+		public Contract? Contract { get; set; }
+
+		static int LatestId = 1;
 	}
-
-	public void Print()
-	{
-		Console.WriteLine($"Truck {Id}");
-	}
-
-	public string Id { get; set; }
-
-	static int LatestId = 0;
 }

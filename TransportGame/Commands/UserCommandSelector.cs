@@ -1,117 +1,69 @@
-﻿public class UserCommandSelector
+﻿namespace AsciiGames
 {
-	public enum ECommand
+	public class UserCommandSelector
 	{
-		None,
-		ChangeCompanyName,
-		CompanyInfo,
-		TruckList,
-		BuyTruck,
-		SellTruck,
-		EndMonth,
-		Quit
-	};
-
-	public enum EMenu
-	{
-		Main,
-		Trucks
-	};
-
-	public UserCommandSelector()
-	{
-		MenuPrinter = new MenuPrinter();
-		Command = ECommand.None;
-	}
-
-	public ECommand Select()
-	{
-		do
+		public UserCommandSelector()
 		{
-			MenuPrinter.PrintCommands(Menu);
-			_menuChanged = false;
-			SelectCommand();
-		} while (_menuChanged);
-
-		return Command;
-	}
-
-	private void SelectCommand()
-	{
-		Console.Write("Select command: ");
-		ConsoleKeyInfo input = Console.ReadKey();
-		Console.WriteLine("");
-
-		switch (Menu)
-		{
-			case EMenu.Main:
-				ProcessMainMenu(input);
-				break;
-
-			case EMenu.Trucks:
-				ProcessTruckMenu(input);
-				break;
+			_commands = new Commands();
+			_menu = Command.EMenu.Main;
+			
+			SelectedCommand = Command.EId.None;
 		}
-	}
 
-	private void ProcessMainMenu(ConsoleKeyInfo input)
-	{
-		switch (input.Key)
+		public Command.EId Select()
 		{
-			case ConsoleKey.C:
-				Command = ECommand.CompanyInfo;
-				break;
-
-			case ConsoleKey.E:
-				Command = ECommand.EndMonth;
-				break;
-
-			case ConsoleKey.N:
-				Command = ECommand.ChangeCompanyName;
-				break;
-
-			case ConsoleKey.Q:
-				Command = ECommand.Quit;
-				break;
-
-			case ConsoleKey.T:
-				Menu = EMenu.Trucks;
-				break;
+			Command command;
+			do
+			{
+				command = SelectCommand();
+				if (command.ToMenu != Command.EMenu.None)
+				{
+					_menu = command.ToMenu;
+				}
+			} while (command.ToMenu != Command.EMenu.None);
+			return command.Id;
 		}
-	}
 
-	private void ProcessTruckMenu(ConsoleKeyInfo input)
-	{
-		switch (input.Key)
+
+		private Command SelectCommand()
 		{
-			case ConsoleKey.B:
-				Command = ECommand.BuyTruck;
-				break;
+			PrintCommands(_menu);
+			Console.Write("Select command: ");
+			Command? command;
+			do
+			{
+				ConsoleKeyInfo input = Console.ReadKey();
+				Console.WriteLine("");
 
-			case ConsoleKey.L:
-				Command = ECommand.TruckList;
-				break;
-
-			case ConsoleKey.S:
-				Command = ECommand.SellTruck;
-				break;
-
-			case ConsoleKey.Enter:
-				Menu = EMenu.Main;
-				break;
+				command = _commands.GetByKeyInMenu(input.Key, _menu);
+				if (command == null)
+				{
+					Console.WriteLine("Invalid command");
+					PrintCommands(_menu);
+				}
+			} while (command == null);
+			return command;
 		}
+
+
+		public void PrintCommands(Command.EMenu menu)
+		{
+			Console.WriteLine($"===============   {Command.GetMenuName(menu)}   ===============");
+			foreach (Command command in _commands.CommandList)
+			{
+				if (command.Menu == menu)
+				{
+					Console.Write($"{command.KeyString}: {command.Text}    ");
+				}
+			}
+			Console.WriteLine();
+		}
+
+		private Command.EMenu _menu;
+
+		public Command.EId SelectedCommand { get; set; }
+
+		private readonly Commands _commands;
+		
 	}
-
-	private MenuPrinter MenuPrinter;
-
-	private EMenu _menu;
-	private bool _menuChanged;
-
-	private EMenu Menu
-	{
-		get { return _menu; }
-		set { _menu = value; _menuChanged = true; }
-	}
-
-	public ECommand Command { get; set; }
 }

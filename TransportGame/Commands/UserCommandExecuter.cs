@@ -1,50 +1,37 @@
-﻿public class UserCommandExecuter
+﻿namespace AsciiGames
 {
-	public UserCommandExecuter(TransportGame transportGame)
+	public class UserCommandExecuter
 	{
-		_transportGame = transportGame;
-	}
-
-	public void Execute(UserCommandSelector.ECommand command)
-	{
-		switch (command)
+		public UserCommandExecuter(TransportGame transportGame)
 		{
-		case UserCommandSelector.ECommand.None:
-			break;
-
-		case UserCommandSelector.ECommand.CompanyInfo:
-			_transportGame.Company.Print();
-			break;
-
-		case UserCommandSelector.ECommand.ChangeCompanyName:
-			_transportGame.Company.ChangeCompanyName();
-			break;
-
-		case UserCommandSelector.ECommand.TruckList:
-			_transportGame.Company.Trucks.Print();
-			break;
-
-		case UserCommandSelector.ECommand.BuyTruck:
-			_transportGame.Company.BuyTruck();
-			break;
-
-		case UserCommandSelector.ECommand.SellTruck:
-			_transportGame.Company.SellTruck();
-			break;
-
-		case UserCommandSelector.ECommand.EndMonth:
-			_transportGame.EndMonth();
-			break;
-
-		case UserCommandSelector.ECommand.Quit:
-			_transportGame.IsQuitCommandRequested = true;
-			break;
-
-		default:
-			Console.WriteLine("INVALID COMMAND");
-			break;
+			_transportGame = transportGame;
 		}
-	}
 
-	private TransportGame _transportGame;
+		public void Execute(Command.EId command)
+		{
+			switch (command)
+			{
+				case Command.EId.None:break;
+
+				// Main Menu
+				case Command.EId.EndMonth: _transportGame.EndMonth(); break;
+				case Command.EId.QuitGame: _transportGame.IsQuitCommandRequested = true; break;
+
+				// Market Menu
+				case Command.EId.ShowContracts: _transportGame.Contracts.Print(); break;
+
+				// Company Menu
+				case Command.EId.ShowCompanyInfo: _transportGame.Company.Print(); break;
+				case Command.EId.EditCompanyName: _transportGame.Company.ChangeCompanyName(); break;
+
+				// Company / Trucks Menu
+				case Command.EId.ShowTruckList: _transportGame.Company.Trucks.Print(); break;
+				case Command.EId.BuyTruck: _transportGame.Company.BuyTruck(); break;
+				case Command.EId.SellTruck: _transportGame.Company.SellTruck(); break;
+				default: Console.WriteLine("INVALID COMMAND"); break;
+			}
+		}
+
+		private readonly TransportGame _transportGame;
+	}
 }
